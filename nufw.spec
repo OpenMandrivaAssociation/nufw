@@ -2,7 +2,7 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.0.16
+%define version 2.0.20
 %define release %mkrel 1
 
 %define libname %mklibname nuclient 0
@@ -243,7 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README TODO
 %doc doc
 %{_sbindir}/nufw
-%{_mandir}/man1/nufw.1*
+%{_mandir}/man8/nufw.8*
 %config(noreplace) %{_initrddir}/nufw
 %config(noreplace) %{_sysconfdir}/sysconfig/nufw
 %dir %{_sysconfdir}/nufw/
@@ -253,9 +253,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/nuaclgen
 %{_bindir}/nutop
 %{_bindir}/nufw_dbm
-%{_mandir}/man1/nuaclgen.1*
-%{_mandir}/man1/nutop.1*
-%{_mandir}/man1/nufw_dbm.1*
+%{_mandir}/man8/nuaclgen.8*
+%{_mandir}/man8/nutop.8*
+%{_mandir}/man8/nufw_dbm.8*
 %config(noreplace) %{_sysconfdir}/nufw/nutop.conf
 %config(noreplace) %{_sysconfdir}/nufw/nuaclgen.conf
 %dir %{_sysconfdir}/nufw/
@@ -305,7 +305,7 @@ rm -rf $RPM_BUILD_ROOT
 %files nuauth
 %defattr(-, root, root)
 %{_sbindir}/nuauth
-%{_mandir}/man1/nuauth.1*
+%{_mandir}/man8/nuauth.8*
 %{_localstatedir}/nuauth
 %dir /var/run/nuauth/
 %config(noreplace) %{_initrddir}/nuauth
