@@ -2,7 +2,7 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.0.20
+%define version 2.2.4
 %define release %mkrel 1
 
 %define libname %mklibname nuclient 0
@@ -14,8 +14,8 @@ Summary:	Authentication Firewall Suite for Linux
 License:	GPL
 Group:		Networking/Other
 Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
-Source1:    nufw.init.bz2
-Source2:    nuauth.init.bz2
+Source1:    nufw.init
+Source2:    nuauth.init
 Source3:    nuauth.pam
 URL:		http://www.nufw.org/
 Requires(post): rpm-helper
@@ -174,9 +174,8 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/nuauth/modules/*.{a,la}
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/*{a,la}
 
 mkdir -p $RPM_BUILD_ROOT/%_initrddir/
-bzcat %SOURCE1 > $RPM_BUILD_ROOT/%_initrddir/nufw
-bzcat %SOURCE2 > $RPM_BUILD_ROOT/%_initrddir/nuauth
-chmod 755 $RPM_BUILD_ROOT/%_initrddir/*
+install -m755 %SOURCE1 $RPM_BUILD_ROOT/%_initrddir/nufw
+install -m755 %SOURCE2  $RPM_BUILD_ROOT/%_initrddir/nuauth
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/
 cat > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/nufw << EOF
 # daemon verbosity
@@ -236,8 +235,6 @@ rm -rf $RPM_BUILD_ROOT
 %preun nuauth
 %_preun_service nuauth
 
-
-
 %files
 %defattr(-, root, root)
 %doc AUTHORS ChangeLog NEWS README TODO
@@ -246,7 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/nufw.8*
 %config(noreplace) %{_initrddir}/nufw
 %config(noreplace) %{_sysconfdir}/sysconfig/nufw
-%dir %{_sysconfdir}/nufw/
+dir %{_sysconfdir}/nufw/
 
 %files utils
 %defattr(-, root, root)
@@ -328,5 +325,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_bindir}/nutcpc
 %{_mandir}/man1/nutcpc.1*
-
-
