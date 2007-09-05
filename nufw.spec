@@ -2,7 +2,11 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.2.4
+# (misc) do not upgrade tO 2.2 until 2008.0 is out, as
+# everything changed and some others software were broken 
+# please also warn me if something important need to be changed 
+# ( like 2.0 => 2.2 )
+%define version 2.0.22
 %define release %mkrel 1
 
 %define libname %mklibname nuclient 0
@@ -17,6 +21,7 @@ Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
 Source1:    nufw.init
 Source2:    nuauth.init
 Source3:    nuauth.pam
+Patch:      nufw.compile_2.0.22.diff
 URL:		http://www.nufw.org/
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
@@ -139,6 +144,8 @@ This module allows you to log user activity to the Prelude IDS.
 
 %prep
 %setup -q
+%patch0
+
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
 # default config fix
 perl -pi -e 's/^(nuauth_user_check_module="lib)dbm"/$1system"/' conf/nuauth.conf
@@ -148,11 +155,12 @@ perl -pi -e 's|^(modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefil
 perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile* 
 
 %build
+./autogen.sh
 # there is no ident library
 %configure --with-mysql-log --with-pgsql-log --with-utf8 \
            --with-ldap --with-system-auth --with-gdbm --with-user-mark \
            --with-prelude-log --sysconfdir=%{_sysconfdir}/nufw/ --localstatedir=%_var  
-%make
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
