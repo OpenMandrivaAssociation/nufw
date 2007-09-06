@@ -251,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/nufw.8*
 %config(noreplace) %{_initrddir}/nufw
 %config(noreplace) %{_sysconfdir}/sysconfig/nufw
-dir %{_sysconfdir}/nufw/
+%dir %{_sysconfdir}/nufw/
 
 %files utils
 %defattr(-, root, root)
