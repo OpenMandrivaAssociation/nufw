@@ -32,7 +32,6 @@ BuildRequires: postgresql-devel mysql-devel	gdbm-devel
 BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel 
 BuildRequires: openldap-devel iptables-devel
 BuildRequires: prelude-devel 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
 %description
 NuFW is a firewall able to filter connection according to user uid or user 
