@@ -37,7 +37,7 @@ BuildRequires: postgresql-devel mysql-devel
 BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel
 BuildRequires: openldap-devel iptables-devel
 BuildRequires: prelude-devel
-BuildRequires: python-IPy
+BuildRequires: python-IPy python-setuptools
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
 %description
