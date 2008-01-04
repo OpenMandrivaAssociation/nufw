@@ -37,7 +37,7 @@ BuildRequires: postgresql-devel mysql-devel
 BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel
 BuildRequires: openldap-devel iptables-devel
 BuildRequires: prelude-devel
-BuildRequires: python-IPy python-setuptools
+BuildRequires: python-IPy python-setuptools python-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
 %description
@@ -101,8 +101,8 @@ Requires(postun): rpm-helper
 Requires(preun): rpm-helper
 Requires(pre): rpm-helper
 Requires: sasl-plug-login sasl-plug-plain python-IPy perl-ldap
-Obsoletes: nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system nuauth-utils
-Provides:  nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system nuauth-utils
+Obsoletes: nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system
+Provides:  nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system
 
 %description   nuauth
 NuFW is an authenticating gateway, which means that connections are
@@ -174,7 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
 
 # (saispo) install python bindings
-cd python; python setup.py install --no-compil --prefix=%{buildroot}/usr; cd ..
+cd python; python setup.py install --no-compil --root=%{buildroot}; cd ..
 
 cp scripts/nuaclgen $RPM_BUILD_ROOT/%{_bindir}
 cp scripts/nutop    $RPM_BUILD_ROOT/%{_bindir}
