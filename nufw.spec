@@ -257,7 +257,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %doc AUTHORS ChangeLog NEWS README TODO
 %doc doc
-#%{_sbindir}/nufw
+%{_sbindir}/nufw
 %{_mandir}/man8/nufw.8*
 %config(noreplace) %{_initrddir}/nufw
 %config(noreplace) %{_sysconfdir}/sysconfig/nufw
