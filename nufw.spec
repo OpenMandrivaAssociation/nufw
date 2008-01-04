@@ -36,7 +36,7 @@ Requires: iptables python-IPy
 BuildRequires: postgresql-devel mysql-devel
 BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel
 BuildRequires: openldap-devel iptables-devel
-BuildRequires: prelude-devel
+BuildRequires: prelude-devel netfilter_queue-devel libnetfilter_conntrack-devel nfnetlink-devel
 BuildRequires: python-IPy python-setuptools python-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
@@ -257,7 +257,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %doc AUTHORS ChangeLog NEWS README TODO
 %doc doc
-%{_sbindir}/nufw
+#%{_sbindir}/nufw
 %{_mandir}/man8/nufw.8*
 %config(noreplace) %{_initrddir}/nufw
 %config(noreplace) %{_sysconfdir}/sysconfig/nufw
