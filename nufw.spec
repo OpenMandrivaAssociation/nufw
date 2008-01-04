@@ -1,15 +1,17 @@
-# TODO 
+# TODO
 #  initscript nuauth to revise ??
 
 %define name	nufw
 # (misc) do not upgrade tO 2.2 until 2008.0 is out, as
-# everything changed and some others software were broken 
-# please also warn me if something important need to be changed 
+# everything changed and some others software were broken
+# please also warn me if something important need to be changed
 # ( like 2.0 => 2.2 )
-%define version 2.0.22
-%define release %mkrel 1
 
-%define libname %mklibname nuclient 0
+%define version 2.2.10
+%define release %mkrel 1
+%define major 3
+%define libname %mklibname nuclient %{major}
+%define develname %mklibname %{name} -d
 
 Name:		%{name}
 Version:	%{version}
@@ -21,26 +23,30 @@ Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
 Source1:    nufw.init
 Source2:    nuauth.init
 Source3:    nuauth.pam
-Patch:      nufw.compile_2.0.22.diff
+# (saispo) ! FIX ME !
+# Add another source because the complete package
+# is only in the trunk at this time.
+Source4:    python-nufw.tar.bz2
 URL:		http://www.nufw.org/
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
 Requires(preun): rpm-helper
 Requires(pre): rpm-helper
-Requires: iptables
-BuildRequires: postgresql-devel mysql-devel	gdbm-devel 
-BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel 
+Requires: iptables python-IPy
+BuildRequires: postgresql-devel mysql-devel
+BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel
 BuildRequires: openldap-devel iptables-devel
-BuildRequires: prelude-devel 
+BuildRequires: prelude-devel
+BuildRequires: python-IPy
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
 %description
-NuFW is a firewall able to filter connection according to user uid or user 
-software, meaning you can allows port 80 for only one user, whatever ip he 
+NuFW is a firewall able to filter connection according to user uid or user
+software, meaning you can allows port 80 for only one user, whatever ip he
 uses, or only for konqueror.
 
-NuFW performs an authentication of every single connection passing through the 
-IP filter, by transparently requesting user's credentials before any filtering 
+NuFW performs an authentication of every single connection passing through the
+IP filter, by transparently requesting user's credentials before any filtering
 decision is taken. Practically, this means security policies can integrate with
 the users directory, and bring the notion of user ID down to the IP layers.
 
@@ -50,26 +56,24 @@ Group:     Networking/Other
 %description utils
 This package contains various utilities :
 
-  * nutop : a top-like utility to watch connection 
+  * nutop : a top-like utility to watch connection
 
   * nutcpc : a console client to authenticate on nuauth gateway
 
-  * nufw_dbm : a utility to mange list of user in a dbm file
-
   * nuaclgen : a perl script to add users to ldap
 
-%package -n %libname
+%package -n %{libname}
 Summary:   Nuclient library
 Group:     System/Libraries
-%description -n %libname
+%description -n %{libname}
 Library needed by nufw for nuclient.
 
-%package -n %libname-devel
+%package -n %{develname}
 Summary:   Nuclient development library
 Group:     System/Libraries
 Provides:  libnuclient-devel
 Requires:  %libname = %version
-%description -n %libname-devel
+%description -n %{develname}
 Development file of the nuclient library, used to compile
 client accessing to nufw.
 
@@ -78,15 +82,15 @@ Summary: Nufw client using pam credentials
 Group:   Networking/Other
 
 %description -n pam_nufw
-pam_nufw is a PAM module able to integrate with the PAM stack. 
-It reuse pam credentials to connect to nufw daemon, instead of requiring to 
+pam_nufw is a PAM module able to integrate with the PAM stack.
+It reuse pam credentials to connect to nufw daemon, instead of requiring to
 start nutcpc by hand.
 
 %package nutcpc
 Summary: Nufw client
 Group:   Networking/Other
 %description nutcpc
-Nutcpc is the command line client used to authenticate on a firewall using 
+Nutcpc is the command line client used to authenticate on a firewall using
 nufw.
 
 %package  nuauth
@@ -96,27 +100,21 @@ Requires(post): rpm-helper
 Requires(postun): rpm-helper
 Requires(preun): rpm-helper
 Requires(pre): rpm-helper
-Requires: sasl-plug-login sasl-plug-plain
-Obsoletes: nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system 
-Provides:  nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system
+Requires: sasl-plug-login sasl-plug-plain python-IPy perl-ldap
+Obsoletes: nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system nuauth-utils
+Provides:  nufw-nuauth-auth-plaintext nufw-nuauth-log-syslog nufw-nuauth-auth-system nuauth-utils
 
 %description   nuauth
-NuFW is an authenticating gateway, which means that connections are 
-authenticated before being forwarded through the gateway. Classical packet 
-filtering systems disregard the identity of the user who may be attempting 
-to access the network, instead caring only about the originating IP addresses. 
+NuFW is an authenticating gateway, which means that connections are
+authenticated before being forwarded through the gateway. Classical packet
+filtering systems disregard the identity of the user who may be attempting
+to access the network, instead caring only about the originating IP addresses.
 
-Nuauth lays on a user database, and an ACL system (which can reside in an LDAP 
-directory, or XML/DBM solutions, etc. Nuauth receives requests from nufw, and 
-auth packets from users' clients, and sends decision to the nufw daemon.
+Nuauth lays on a user database, and an ACL system (which can reside in an LDAP
+directory, etc. Nuauth receives requests from nufw, and auth packets from users'
+clients, and sends decision to the nufw daemon.
 
 This package contains the main daemon.
-
-%package nuauth-auth-dbm
-Summary:   Module for nuauth providing dbm file user database
-Group:     Networking/Other
-%description  nuauth-auth-dbm
-This package provides a module to use a dbm file as user database for nuauth.
 
 %package nuauth-auth-ldap
 Summary:   Module for nuauth providing ldap user database
@@ -142,36 +140,48 @@ Group:     Networking/Other
 %description nuauth-log-prelude
 This module allows you to log user activity to the Prelude IDS.
 
-%prep
-%setup -q
-%patch0
+%package -n python-nufw
+Summary:  Python bindings for NuFW client (nutcpc)
+Group:    Development/Python
+%description -n python-nufw
+Bindings Python and nutcpc client for NuFW.
 
+%prep
+%setup -q -a 4
+
+# fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
-# default config fix
-perl -pi -e 's/^(nuauth_user_check_module="lib)dbm"/$1system"/' conf/nuauth.conf
 
 # fix for lib64 policy
-perl -pi -e 's|^(modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile* 
-perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile* 
+perl -pi -e 's|^(modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile*
+perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile*
+
+# fix nuauth-utils build
+perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
 
 %build
 ./autogen.sh
-# there is no ident library
-%configure --with-mysql-log --with-pgsql-log --with-utf8 \
-           --with-ldap --with-system-auth --with-gdbm --with-user-mark \
-           --with-prelude-log --sysconfdir=%{_sysconfdir}/nufw/ --localstatedir=%_var  
-make
+%configure2_5x  --localstatedir=%_var \
+                --sysconfdir=%{_sysconfdir}/nufw/ \
+                --with-mysql-log --with-pgsql-log --with-system-auth --with-ldap \
+                --with-nfqueue --with-nfconntrack --with-fixedtimeout --with-utf8 \
+                --enable-pam-nufw --with-prelude-log
+
+%make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
+
+# (saispo) install python bindings
+cd python; python setup.py install --no-compil --prefix=%{buildroot}/usr; cd ..
 
 cp scripts/nuaclgen $RPM_BUILD_ROOT/%{_bindir}
 cp scripts/nutop    $RPM_BUILD_ROOT/%{_bindir}
 
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
 cp conf/{nutop,nuauth,nuaclgen}.conf  $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
-cp conf/{acls.nufw,users-gdbm.nufw,periods.xml} $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
+cp conf/{acls.nufw,periods.xml} $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
 cp -R conf/certs/* $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
 cp conf/users-plaintext.nufw $RPM_BUILD_ROOT/%{_sysconfdir}/nufw/users.nufw
 
@@ -213,8 +223,8 @@ EOF
 mkdir $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/
 cp %SOURCE3 $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/nuauth
 
-# (misc) zeck request for corporate server 4
-%if %mdkversion < 200700 
+# (misc) Zeck request for corporate server 4
+%if %mdkversion < 200700
 perl -pi -e "s/include\s*system-auth/required  pam_stack.so service=system-auth/g" $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/nuauth
 %endif
 
@@ -224,10 +234,10 @@ rm -rf $RPM_BUILD_ROOT
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
 
-%post 
+%post
 %_post_service nufw
 
-%preun 
+%preun
 %_preun_service nufw
 
 # nuauth
@@ -257,19 +267,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_bindir}/nuaclgen
 %{_bindir}/nutop
-%{_bindir}/nufw_dbm
 %{_mandir}/man8/nuaclgen.8*
 %{_mandir}/man8/nutop.8*
-%{_mandir}/man8/nufw_dbm.8*
 %config(noreplace) %{_sysconfdir}/nufw/nutop.conf
 %config(noreplace) %{_sysconfdir}/nufw/nuaclgen.conf
 %dir %{_sysconfdir}/nufw/
 
-%files -n %libname
+%files -n %{libname}
 %defattr(-, root, root)
 %{_libdir}/libnuclient.so.*
 
-%files -n %libname-devel
+%files -n %{develname}
 %defattr(-, root, root)
 %{_libdir}/libnuclient.a
 %{_libdir}/libnuclient.la
@@ -281,12 +289,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %doc doc/README.pam_nufw
 /%{_lib}/security/pam_nufw.so
-
-
-%files nuauth-auth-dbm
-%defattr(-, root, root)
-%{_libdir}/nuauth/modules/libdbm.so*
-%config(noreplace) %{_sysconfdir}/nufw/users-gdbm.nufw
 
 %files nuauth-auth-ldap
 %defattr(-, root, root)
@@ -328,8 +330,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/nuauth/modules/libx509_std.so*
 %{_libdir}/nuauth/modules/libxml_defs.so*
 %{_libdir}/nuauth/modules/libipauth_guest.so*
+%{_libdir}/nuauth/modules/libmark_field.so*
+%{_libdir}/nuauth/modules/libmark_flag.so*
+%{_libdir}/nuauth/modules/libmark_group.so*
+%{_libdir}/nuauth/modules/libmark_uid.so*
+%{_libdir}/nuauth/modules/libsession_expire.so*
 
 %files nutcpc
 %defattr(-, root, root)
 %{_bindir}/nutcpc
 %{_mandir}/man1/nutcpc.1*
+
+%files -n python-nufw
+%defattr(-, root, root)
+%{py_puresitedir}/*egg-info
+%{py_puresitedir}/nuclient/*
