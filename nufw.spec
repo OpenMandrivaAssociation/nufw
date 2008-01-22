@@ -8,7 +8,7 @@
 # ( like 2.0 => 2.2 )
 
 %define version 2.2.10
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -17,7 +17,7 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Summary:	Authentication Firewall Suite for Linux
-License:	GPL
+License:	GPLv2+
 Group:		Networking/Other
 Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
 Source1:    nufw.init
