@@ -111,8 +111,8 @@ filtering systems disregard the identity of the user who may be attempting
 to access the network, instead caring only about the originating IP addresses.
 
 Nuauth lays on a user database, and an ACL system (which can reside in an LDAP
-directory, etc. Nuauth receives requests from nufw, and auth packets from users'
-clients, and sends decision to the nufw daemon.
+directory, etc. Nuauth receives requests from nufw, and auth packets from
+users' clients, and sends decision to the nufw daemon.
 
 This package contains the main daemon.
 
