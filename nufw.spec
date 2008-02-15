@@ -7,7 +7,7 @@
 # please also warn me if something important need to be changed
 # ( like 2.0 => 2.2 )
 
-%define version 2.2.10
+%define version 2.2.11
 %define release %mkrel 2
 %define major 3
 %define libname %mklibname nuclient %{major}
@@ -167,6 +167,8 @@ perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
                 --with-nfqueue --with-nfconntrack --with-fixedtimeout --with-utf8 \
                 --enable-pam-nufw --with-prelude-log
 
+# (misc) fix for some error in the Makefile, until I find a proper way to explain this upstream :)
+perl -pi -e 's|(install -d \$\(localstatedir\)/run/nuauth/)|#$1|'  ./src/nuauth/Makefile
 %make
 
 %install
