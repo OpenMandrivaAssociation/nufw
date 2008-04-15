@@ -7,8 +7,8 @@
 # please also warn me if something important need to be changed
 # ( like 2.0 => 2.2 )
 
-%define version 2.2.11
-%define release %mkrel 2
+%define version 2.2.15
+%define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -192,6 +192,7 @@ mkdir -p $RPM_BUILD_ROOT/var/run/nuauth
 # clean useless files
 rm -f $RPM_BUILD_ROOT/%{_libdir}/nuauth/modules/*.{a,la}
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/*{a,la}
+rm -f $RPM_BUILD_ROOT/%{_libdir}/libnobuffer*
 
 mkdir -p $RPM_BUILD_ROOT/%_initrddir/
 install -m755 %SOURCE1 $RPM_BUILD_ROOT/%_initrddir/nufw
