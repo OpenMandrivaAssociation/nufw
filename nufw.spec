@@ -187,7 +187,7 @@ cp conf/{acls.nufw,periods.xml} $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
 cp -R conf/certs/* $RPM_BUILD_ROOT/%{_sysconfdir}/nufw
 cp conf/users-plaintext.nufw $RPM_BUILD_ROOT/%{_sysconfdir}/nufw/users.nufw
 
-mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/nuauth
+mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/lib/nuauth
 mkdir -p $RPM_BUILD_ROOT/var/run/nuauth
 # clean useless files
 rm -f $RPM_BUILD_ROOT/%{_libdir}/nuauth/modules/*.{a,la}
@@ -245,7 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # nuauth
 %pre nuauth
-%_pre_useradd nuauth %{_localstatedir}/nuauth /bin/false
+%_pre_useradd nuauth %{_localstatedir}/lib/nuauth /bin/false
 
 %post nuauth
 %_post_service nuauth
@@ -316,7 +316,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_sbindir}/nuauth
 %{_mandir}/man8/nuauth.8*
-%{_localstatedir}/nuauth
+%{_localstatedir}/lib/nuauth
 %dir /var/run/nuauth/
 %config(noreplace) %{_initrddir}/nuauth
 %config(noreplace) %{_sysconfdir}/%{name}/nuauth.conf
