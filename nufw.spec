@@ -234,8 +234,12 @@ perl -pi -e "s/include\s*system-auth/required  pam_stack.so service=system-auth/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %post
 %_post_service nufw
