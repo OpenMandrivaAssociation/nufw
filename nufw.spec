@@ -13,6 +13,9 @@
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
 
+# needed for modules, that are seen as plugins
+%define _disable_ld_no_undefined 1
+
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
@@ -347,6 +350,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/nuauth/modules/libmark_group.so*
 %{_libdir}/nuauth/modules/libmark_uid.so*
 %{_libdir}/nuauth/modules/libsession_expire.so*
+%{_libdir}/nuauth/modules/libsession_authtype.so*
 
 %files nutcpc
 %defattr(-, root, root)
