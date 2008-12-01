@@ -2,18 +2,12 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-# (misc) do not upgrade tO 2.2 until 2008.0 is out, as
-# everything changed and some others software were broken
-# please also warn me if something important need to be changed
-# ( like 2.0 => 2.2 )
-
-%define version 2.2.17
+%define version 2.2.19
 %define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
 
-# needed for modules, that are seen as plugins
 %define _disable_ld_no_undefined 1
 
 Name:		%{name}
@@ -26,12 +20,9 @@ Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
 Source1:    nufw.init
 Source2:    nuauth.init
 Source3:    nuauth.pam
-# (saispo) ! FIX ME !
-# Add another source because the complete package
-# is only in the trunk at this time.
 Source4:    python-nufw.tar.bz2
 URL:		http://www.nufw.org/
-Patch1:     nufw-2.2.16.underlinking_fix.diff 
+Patch1:     nufw-2.2.16.underlinking_fix.diff
 
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
@@ -165,7 +156,7 @@ perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefi
 perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
 
 # fix underlinking, sent upstream
-%patch1 -p0
+# %patch1 -p0
 
 %build
 ./autogen.sh
@@ -328,6 +319,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_sbindir}/nuauth
 %{_mandir}/man8/nuauth.8*
+%{_mandir}/man5/nuclient.conf.5*
 %{_localstatedir}/lib/nuauth
 %dir /var/run/nuauth/
 %config(noreplace) %{_initrddir}/nuauth
