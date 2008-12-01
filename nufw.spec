@@ -156,7 +156,7 @@ perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefi
 perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
 
 # fix underlinking, sent upstream
-# %patch1 -p0
+%patch1 -p0
 
 %build
 ./autogen.sh
