@@ -30,7 +30,7 @@ Requires(preun): rpm-helper
 Requires(pre): rpm-helper
 Requires: iptables python-IPy
 BuildRequires: postgresql-devel mysql-devel
-BuildRequires: gnutls-devel glib2-devel pam-devel libsasl2-devel
+BuildRequires: libtasn1-devel gnutls-devel glib2-devel pam-devel libsasl2-devel chrpath
 BuildRequires: openldap-devel iptables-devel
 BuildRequires: prelude-devel netfilter_queue-devel libnetfilter_conntrack-devel nfnetlink-devel
 BuildRequires: python-IPy python-setuptools python-devel
@@ -156,7 +156,7 @@ perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefi
 perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
 
 # fix underlinking, sent upstream
-%patch1 -p0
+# %patch1 -p0
 
 %build
 ./autogen.sh
