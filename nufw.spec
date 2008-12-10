@@ -2,7 +2,7 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.2.19
+%define version 2.2.20
 %define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
@@ -20,8 +20,11 @@ Source:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2
 Source1:    nufw.init
 Source2:    nuauth.init
 Source3:    nuauth.pam
-Source4:    python-nufw.tar.bz2
+Source4:    setup-python_nufw.py
+Source5:    version-python_nufw.py
+Source6:    README.python_nufw
 URL:		http://www.nufw.org/
+Patch0:     nufw-avoid-version.patch
 Patch1:     nufw-2.2.16.underlinking_fix.diff
 
 Requires(post): rpm-helper
@@ -143,7 +146,9 @@ Group:    Development/Python
 Bindings Python and nutcpc client for NuFW.
 
 %prep
-%setup -q -a 4
+%setup -q
+%patch0 -p1 -b .avoid-version
+%patch1 -p0 -b .underlinking
 
 # fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
@@ -175,6 +180,9 @@ rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
 
 # (saispo) install python bindings
+cp %{SOURCE4} python/setup.py
+cp %{SOURCE5} python/nuclient/version.py
+cp %{SOURCE5} python/README
 cd python; python setup.py install --no-compil --root=%{buildroot}; cd ..
 
 cp scripts/nuaclgen $RPM_BUILD_ROOT/%{_bindir}
