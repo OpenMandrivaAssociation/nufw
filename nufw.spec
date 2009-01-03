@@ -26,6 +26,8 @@ Source6:    README.python_nufw
 URL:		http://www.nufw.org/
 Patch0:     nufw-avoid-version.patch
 Patch1:     nufw-2.2.16.underlinking_fix.diff
+# Fix string literal issue - AdamW 2009/01
+Patch2:		nufw-2.2.20-literal.patch
 
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
@@ -149,6 +151,7 @@ Bindings Python and nutcpc client for NuFW.
 %setup -q
 %patch0 -p1 -b .avoid-version
 %patch1 -p0 -b .underlinking
+%patch2 -p1 -b .literal
 
 # fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
