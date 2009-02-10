@@ -2,8 +2,8 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.2.20
-%define release %mkrel 2
+%define version 2.2.21
+%define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -24,10 +24,7 @@ Source4:    setup-python_nufw.py
 Source5:    version-python_nufw.py
 Source6:    README.python_nufw
 URL:		http://www.nufw.org/
-Patch0:     nufw-avoid-version.patch
-Patch1:     nufw-2.2.16.underlinking_fix.diff
-# Fix string literal issue - AdamW 2009/01
-Patch2:		nufw-2.2.20-literal.patch
+Patch2:		nufw-2.2.21-literal.patch
 
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
@@ -149,9 +146,7 @@ Bindings Python and nutcpc client for NuFW.
 
 %prep
 %setup -q
-%patch0 -p1 -b .avoid-version
-%patch1 -p0 -b .underlinking
-%patch2 -p1 -b .literal
+%patch2 -p0 -b .literal
 
 # fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
@@ -162,9 +157,6 @@ perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefi
 
 # fix nuauth-utils build
 perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
-
-# fix underlinking, sent upstream
-# %patch1 -p0
 
 %build
 ./autogen.sh
