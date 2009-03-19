@@ -3,7 +3,7 @@
 
 %define name	nufw
 %define version 2.2.21
-%define release %mkrel 2
+%define release %mkrel 3
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -156,7 +156,7 @@ perl -pi -e 's|^(modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefil
 perl -pi -e 's|(\@modulesdir\s*=\s*/)lib|$1%_lib|' ./src/clients/pam_nufw/Makefile*
 
 # fix nuauth-utils build
-perl -pi -e 's|\$\(prefix\)|\%\{buildroot\}|' ./scripts/nuauth_command/Makefile*
+perl -pi -e 's|\$\(prefix\)|\${buildroot\}\/usr|' ./scripts/nuauth_command/Makefile*
 
 %build
 ./autogen.sh
@@ -276,8 +276,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_bindir}/nuaclgen
 %{_bindir}/nutop
+%{_bindir}/nuauth_command
 %{_mandir}/man8/nuaclgen.8*
 %{_mandir}/man8/nutop.8*
+%{py_puresitedir}/nuauth_command/*
 %config(noreplace) %{_sysconfdir}/nufw/nutop.conf
 %config(noreplace) %{_sysconfdir}/nufw/nuaclgen.conf
 %dir %{_sysconfdir}/nufw/
@@ -330,7 +332,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/%{name}/periods.xml
 %config(noreplace) %{_sysconfdir}/%{name}/users.nufw
 %config(noreplace) %{_sysconfdir}/%{name}/acls.nufw
-%config(noreplace) %{_sysconfdir}/%{name}/*pem
+%attr(640, root, nuauth) %config(noreplace) %{_sysconfdir}/%{name}/*pem
 %config(noreplace) %{_sysconfdir}/pam.d/nuauth
 %dir %{_sysconfdir}/%{name}/
 %{_libdir}/nuauth/modules/libsyslog.so*
