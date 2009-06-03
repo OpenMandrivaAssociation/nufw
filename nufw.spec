@@ -3,7 +3,7 @@
 
 %define name	nufw
 %define version 2.2.21
-%define release %mkrel 3
+%define release %mkrel 4
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -25,6 +25,7 @@ Source5:    version-python_nufw.py
 Source6:    README.python_nufw
 URL:		http://www.nufw.org/
 Patch2:		nufw-2.2.21-literal.patch
+Patch3:		nufw-2.2.21-gnutls-2.8.patch
 
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
@@ -147,6 +148,7 @@ Bindings Python and nutcpc client for NuFW.
 %prep
 %setup -q
 %patch2 -p0 -b .literal
+%patch3 -p0 -b .gnutls
 
 # fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
