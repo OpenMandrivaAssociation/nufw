@@ -39,7 +39,7 @@ BuildRequires: libtasn1-devel gnutls-devel glib2-devel pam-devel libsasl2-devel 
 BuildRequires: openldap-devel iptables-devel
 BuildRequires: prelude-devel netfilter_queue-devel libnetfilter_conntrack-devel nfnetlink-devel
 BuildRequires: python-IPy python-setuptools python-devel
-BuildRequires: flex
+BuildRequires: flex bison
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}/buildroot
 
 %description
