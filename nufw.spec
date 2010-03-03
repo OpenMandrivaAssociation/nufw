@@ -2,8 +2,8 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.2.21
-%define release %mkrel 5
+%define version 2.4.0
+%define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -23,7 +23,9 @@ Source3:    nuauth.pam
 Source4:    setup-python_nufw.py
 Source5:    version-python_nufw.py
 Source6:    README.python_nufw
+Source7:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2.asc
 URL:		http://www.nufw.org/
+Patch0:		nufw-2.4.0-log_printf.patch
 Patch2:		nufw-2.2.21-literal.patch
 Patch3:		nufw-2.2.21-gnutls-2.8.patch
 
@@ -147,8 +149,9 @@ Bindings Python and nutcpc client for NuFW.
 
 %prep
 %setup -q
-%patch2 -p0 -b .literal
-%patch3 -p0 -b .gnutls
+%patch0 -p0 -b .log_printf
+#%patch2 -p0 -b .literal
+#%patch3 -p0 -b .gnutls
 
 # fix postgresql name
 perl -pi -e "s|postgresql|pgsql|" ./src/nuauth/modules/log_pgsql/Makefile*
@@ -289,12 +292,21 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{libname}
 %defattr(-, root, root)
 %{_libdir}/libnuclient.so.*
+%{_libdir}/libnussl.so.*
 
 %files -n %{develname}
 %defattr(-, root, root)
 %{_libdir}/libnuclient.a
 %{_libdir}/libnuclient.la
 %{_libdir}/libnuclient.so
+%{_libdir}/libnussl.a
+%{_libdir}/libnussl.la
+%{_libdir}/libnussl.so
+%{_libdir}/nuclient/modules/luser.a
+%{_libdir}/nuclient/modules/luser.la
+%{_libdir}/nuclient/modules/luser.so
+%{_libdir}/pkgconfig/libnuclient.pc
+%{_libdir}/pkgconfig/libnussl.pc
 %{_includedir}/*
 %{_mandir}/man3/libnuclient.3*
 
@@ -350,6 +362,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/nuauth/modules/libmark_uid.so*
 %{_libdir}/nuauth/modules/libsession_expire.so*
 %{_libdir}/nuauth/modules/libsession_authtype.so*
+%{_libdir}/nuauth/modules/libpostauth_localuser.so*
+%{_libdir}/nuauth/modules/libulogd2.so
 
 %files nutcpc
 %defattr(-, root, root)
