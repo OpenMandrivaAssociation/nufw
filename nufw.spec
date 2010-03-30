@@ -3,7 +3,7 @@
 
 %define name	nufw
 %define version 2.4.0
-%define release %mkrel 2
+%define release %mkrel 3
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
@@ -91,6 +91,7 @@ start nutcpc by hand.
 %package nutcpc
 Summary: Nufw client
 Group:   Networking/Other
+Requires: sasl-plug-login sasl-plug-plain
 %description nutcpc
 Nutcpc is the command line client used to authenticate on a firewall using
 nufw.
@@ -145,7 +146,6 @@ This module allows you to log user activity to the Prelude IDS.
 %package -n python-nufw
 Summary:  Python bindings for NuFW client (nutcpc)
 Group:    Development/Python
-Requires: sasl-plug-login sasl-plug-plain
 %description -n python-nufw
 Bindings Python and nutcpc client for NuFW.
 
