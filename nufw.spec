@@ -2,8 +2,8 @@
 #  initscript nuauth to revise ??
 
 %define name	nufw
-%define version 2.4.0
-%define release %mkrel 3
+%define version 2.4.2
+%define release %mkrel 1
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
