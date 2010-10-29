@@ -3,7 +3,7 @@
 
 %define name	nufw
 %define version 2.4.2
-%define release %mkrel 2
+%define release %mkrel 3
 %define major 3
 %define libname %mklibname nuclient %{major}
 %define develname %mklibname %{name} -d
