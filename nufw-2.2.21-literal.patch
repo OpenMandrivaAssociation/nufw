@@ -1,0 +1,35 @@
+Index: src/clients/lib/internal.c
+===================================================================
+--- src/clients/lib/internal.c
++++ src/clients/lib/internal.c	2009-02-10 19:05:26.000000000 +0100
+@@ -864,7 +864,7 @@
+ 			char msgstring[512];
+ 			char *prefix = "Certificate authority verification failed:";
+ 			int length = 512 - strlen(prefix) - 1;
+-			snprintf(msgstring, 512, prefix);
++			snprintf(msgstring, 512, "%s", prefix);
+ 			if (status & GNUTLS_CERT_INVALID) {
+ 				char *msg = " invalid";
+ 				strncat(msgstring, msg, length);
+@@ -912,7 +912,7 @@
+ 			char msgstring[512];
+ 			char *prefix = "Certificate authority verification failed:";
+ 			int length = 512 - strlen(prefix) - 1;
+-			snprintf(msgstring, 512, prefix);
++			snprintf(msgstring, 512, "%s", prefix);
+ 			if (status & GNUTLS_CERT_INVALID) {
+ 				char *msg = " invalid";
+ 				strncat(msgstring, msg, length);
+Index: src/nuauth/debug.c
+===================================================================
+--- src/nuauth/debug.c
++++ src/nuauth/debug.c	2009-02-10 19:04:05.000000000 +0100
+@@ -30,7 +30,7 @@
+ {
+ 	int syslog_level;
+ 	syslog_level = rint(log((double)log_level) / log(2.0));
+-	syslog(LOG_FACILITY | syslog_level, message);
++	syslog(LOG_FACILITY | syslog_level, "%s", message);
+ }
+
+ void set_glib_loghandlers()

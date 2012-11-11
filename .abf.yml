@@ -1,0 +1,9 @@
+sources:
+  "nuauth.init:"	d9c318f0428fc318dbc3cc50e7f5bb8d39dba5cf
+  "nuauth.pam:"	a0894e62cd1637c267bfce8d004d3ba12270d9dc
+  "nufw-2.4.2.tar.bz2:"	c9dcd3aedd9be582a94e003d06a571bb2b52848d
+  "nufw-2.4.2.tar.bz2.asc:"	75c4b7db66ce147374c4a20421f567a55b7eeb3f
+  "nufw.init:"	c7b4e1b6953372df61131abe52f66e4b267ea53b
+  "README.python_nufw:"	4e095018b00fb7d1b10afc0ec2d450448503cd20
+  "setup-python_nufw.py:"	c425a3bb1ad32434a2200b91b662455ea9551a7b
+  "version-python_nufw.py:"	07eb0e41d34bd96eb50992b219167daa65f7d30a

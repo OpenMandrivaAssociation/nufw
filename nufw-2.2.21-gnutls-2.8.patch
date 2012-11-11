@@ -1,0 +1,11 @@
+--- configure.ac~	2009-02-03 16:49:16.000000000 +0100
++++ configure.ac	2009-06-03 17:30:18.000000000 +0200
+@@ -99,7 +99,7 @@
+ fi
+ 
+ NEED_LIBGNUTLS_VERSION=1.0.16
+-AM_PATH_LIBGNUTLS("$NEED_LIBGNUTLS_VERSION")
++PKG_CHECK_MODULES(LIBGNUTLS, [gnutls >= $NEED_LIBGNUTLS_VERSION])
+ if test "x$LIBGNUTLS_LIBS" = "x"; then
+   AC_MSG_ERROR([libgnutls is needed.
+                 See www.gnu.org/software/gnutls/ .])
