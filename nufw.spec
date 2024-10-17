@@ -24,7 +24,7 @@ Source4:    setup-python_nufw.py
 Source5:    version-python_nufw.py
 Source6:    README.python_nufw
 Source7:		http://www.nufw.org/download/nufw/%{name}-%{version}.tar.bz2.asc
-URL:		http://www.nufw.org/
+URL:		https://www.nufw.org/
 Patch0:		nufw-2.4.0-log_printf.patch
 Patch2:		nufw-2.2.21-literal.patch
 Patch3:		nufw-2.2.21-gnutls-2.8.patch
