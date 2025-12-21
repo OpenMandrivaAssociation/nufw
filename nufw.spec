@@ -34,6 +34,11 @@ Requires(postun): rpm-helper
 Requires(preun): rpm-helper
 Requires(pre): rpm-helper
 Requires: iptables python-IPy
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires: postgresql-devel mysql-devel
 BuildRequires: libtasn1-devel gnutls-devel glib2-devel pam-devel libsasl2-devel chrpath
 BuildRequires: openldap-devel iptables-devel
